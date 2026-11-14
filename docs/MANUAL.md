@@ -17,6 +17,30 @@ These modules use the levels of a real Serge system, not Rack's usual ones.
 - Rack's own modules use 10 V peak-to-peak audio and 10 V gates. Next to them Serge outputs look half-size, and Rack oscillators drive Serge shapers hard. That is expected: use PRC, MIX or VCA2 to scale between the two worlds.
 - Every port and knob has a tooltip with its full name.
 
+## The modules
+
+| Short name | Module | What it is |
+|---|---|---|
+| DSG | Dual Universal Slope Generator | envelopes, LFOs, oscillator, slew, clock divider |
+| SSG | Smooth & Stepped Generator | slew, track and hold, sample and hold, random |
+| NTO | New Timbral Oscillator | the main audio oscillator |
+| VCM | Wave Multipliers | squarer, wavefolder, rectifier chain |
+| VCFQ | Variable Q VCF | multimode filter that can ring |
+| VCFS | Variable Slope VCF | filter with a variable slope |
+| RESEQ | Resonant Equalizer | ten fixed resonant bands |
+| TWS | Triple Waveshaper | turns sawtooth into sine |
+| RING | Ring Modulator | ring and amplitude modulation |
+| NOI | Noise Source | white, pink and slow random |
+| ASR | Analog Shift Register | three-stage sample and hold |
+| COM | Dual Comparator | turns levels into pulses |
+| STR | Dual Schmitt Trigger | squaring and a flip-flop |
+| PRC | Dual Processor | mixing, inverting, offsets |
+| XFAD | Cross-Fader | fade between two signals |
+| VCA2 | Dual VCA | two exponential VCAs |
+| MIX | Dual Audio Mixer | two small mixers |
+| DCSM | Dual Channel Stereo Mixer | stereo mixer with panning |
+| PT | Peak & Trough | higher and lower of two signals |
+
 ---
 
 ## DSG: Dual Universal Slope Generator
