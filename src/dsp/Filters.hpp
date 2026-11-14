@@ -63,7 +63,10 @@ struct Vcfs {
 // --- Resonant Equalizer -----------------------------------------------------------
 struct ResEq {
 	static constexpr int N = 10;
-	static constexpr float FREQ[N] = {29.f, 61.f, 115.f, 218.f, 411.f, 777.f, 1500.f, 2800.f, 5200.f, 11000.f};
+	static float freq(int i) {
+		static const float f[N] = {29.f, 61.f, 115.f, 218.f, 411.f, 777.f, 1500.f, 2800.f, 5200.f, 11000.f};
+		return f[i];
+	}
 	Svf band[N];
 	float A[N] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 	float kk[N] = {};
@@ -89,7 +92,7 @@ struct ResEq {
 		for (int i = 0; i < N; i++) {
 			float db, Q;
 			knobLaw(knobs[i], db, Q);
-			band[i].set(FREQ[i], fsOs, Q);
+			band[i].set(freq(i), fsOs, Q);
 			kk[i] = 1.f / Q;
 			A[i] = std::pow(10.f, db / 20.f);
 		}

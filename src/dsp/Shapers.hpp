@@ -51,7 +51,7 @@ inline float tws(float x) {
 inline float ring(float sig, float car, float m, float cl) {
 	static const float n = 1.f / std::tanh(1.2f);
 	float c = std::tanh(2.f * cl * car / 2.5f * 1.2f) * n;
-	return sig * ((1.f - m) + m * c);
+	return railClip(sig * ((1.f - m) + m * c));
 }
 
 } // namespace serge

@@ -29,12 +29,12 @@ jobs:
             cc: gcc
             cxx: g++
           - name: mac-arm64
-            os: macos-14
+            os: macos-latest
             sdk: mac-x64+arm64
             cc: clang
             cxx: clang++
           - name: mac-x64
-            os: macos-14
+            os: macos-latest
             sdk: mac-x64+arm64
             cc: clang -arch x86_64
             cxx: clang++ -arch x86_64
@@ -50,6 +50,11 @@ jobs:
         run: |
           export RACK_DIR="$RUNNER_TEMP/Rack-SDK"
           make -j3 dist CC="${{ matrix.cc }}" CXX="${{ matrix.cxx }}"
+      - name: Check for unresolved plugin symbols
+        if: runner.os == 'Linux'
+        run: |
+          # Anything of ours left undefined would make Rack refuse to load the plugin.
+          if nm -D --undefined-only plugin.so | c++filt | grep -E "serge::|Serge|DSG|SSG|NTO|VCM|VCF|RESEQ|TWS|RING|NOI|ASR|COM|STR|PRC|XFAD|VCA2|MIX|DCSM|PT::"; then exit 1; fi
       - uses: actions/upload-artifact@v4
         with:
           name: Serge-${{ matrix.name }}
@@ -66,7 +71,7 @@ jobs:
         with:
           msystem: MINGW64
           update: true
-          install: make zip unzip curl mingw-w64-x86_64-gcc mingw-w64-x86_64-jq
+          install: make zip unzip curl mingw-w64-x86_64-gcc jq
       - name: Get Rack SDK
         run: |
           curl -sSfL "https://vcvrack.com/downloads/Rack-SDK-${RACK_SDK_VERSION}-win-x64.zip" -o sdk.zip
