@@ -6,7 +6,7 @@ RACK_DIR ?= ../..
 
 FLAGS += -Isrc
 CFLAGS +=
-CXXFLAGS += -Wall -Wextra
+CXXFLAGS += -Wall -Wextra $(EXTRA_CXXFLAGS)
 LDFLAGS +=
 
 SOURCES += $(wildcard src/*.cpp src/modules/*.cpp)

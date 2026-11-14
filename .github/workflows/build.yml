@@ -25,17 +25,17 @@ jobs:
         include:
           - name: lin-x64
             os: ubuntu-22.04
-            sdk: lin-x64
+            sdk: "lin-x64"
             cc: gcc
             cxx: g++
           - name: mac-arm64
             os: macos-latest
-            sdk: mac-x64+arm64
+            sdk: "mac-x64%2Barm64 mac-arm64 mac-x64+arm64"
             cc: clang
             cxx: clang++
           - name: mac-x64
             os: macos-latest
-            sdk: mac-x64+arm64
+            sdk: "mac-x64%2Barm64 mac-x64 mac-x64+arm64"
             cc: clang -arch x86_64
             cxx: clang++ -arch x86_64
     name: build-${{ matrix.name }}
@@ -44,7 +44,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Get Rack SDK
         run: |
-          curl -sSfL "https://vcvrack.com/downloads/Rack-SDK-${RACK_SDK_VERSION}-${{ matrix.sdk }}.zip" -o sdk.zip
+          for name in ${{ matrix.sdk }}; do
+            url="https://vcvrack.com/downloads/Rack-SDK-${RACK_SDK_VERSION}-${name}.zip"
+            if curl -sSfL "$url" -o sdk.zip; then echo "Got $url"; break; fi
+            echo "Not found: $url"
+          done
           unzip -q sdk.zip -d "$RUNNER_TEMP"
       - name: Build
         run: |
@@ -79,7 +83,8 @@ jobs:
       - name: Build
         run: |
           export RACK_DIR="$(pwd)/sdk/Rack-SDK"
-          make -j3 dist
+          # Newer MinGW GCC rejects some template code in the Rack 2 SDK headers.
+          make -j3 dist EXTRA_CXXFLAGS="-Wno-template-body -fpermissive"
       - uses: actions/upload-artifact@v4
         with:
           name: Serge-win-x64
