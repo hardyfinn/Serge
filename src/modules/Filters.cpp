@@ -58,7 +58,8 @@ struct VCFQ : Module {
 			f.step(a[k], b[k]);
 			o[0][k] = f.low(); o[1][k] = f.band(); o[2][k] = f.high(); o[3][k] = f.notch();
 		}
-		for (int j = 0; j < 4; j++) outputs[LOW_OUTPUT + j].setVoltage(dec[j].process(os.kernel, o[j]));
+		for (int j = 0; j < 4; j++)
+			if (outputs[LOW_OUTPUT + j].isConnected()) outputs[LOW_OUTPUT + j].setVoltage(dec[j].process(os.kernel, o[j]));
 	}
 };
 
@@ -116,7 +117,8 @@ struct VCFS : Module {
 			f.step(a[k]);
 			o[0][k] = f.low(); o[1][k] = f.band(); o[2][k] = f.high();
 		}
-		for (int j = 0; j < 3; j++) outputs[LOW_OUTPUT + j].setVoltage(dec[j].process(os.kernel, o[j]));
+		for (int j = 0; j < 3; j++)
+			if (outputs[LOW_OUTPUT + j].isConnected()) outputs[LOW_OUTPUT + j].setVoltage(dec[j].process(os.kernel, o[j]));
 	}
 };
 
@@ -177,7 +179,8 @@ struct RESEQ : Module {
 			eq.step(x[j]);
 			o[0][j] = eq.out; o[1][j] = eq.combUp; o[2][j] = eq.combDown;
 		}
-		for (int j = 0; j < 3; j++) outputs[OUT_OUTPUT + j].setVoltage(dec[j].process(os.kernel, o[j]));
+		for (int j = 0; j < 3; j++)
+			if (outputs[OUT_OUTPUT + j].isConnected()) outputs[OUT_OUTPUT + j].setVoltage(dec[j].process(os.kernel, o[j]));
 	}
 };
 

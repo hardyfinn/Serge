@@ -4,7 +4,7 @@
 
 RACK_DIR ?= ../..
 
-FLAGS += -Isrc
+# No -Isrc: src/dsp/Common.hpp would shadow Rack's <dsp/common.hpp> on case-insensitive filesystems.
 CFLAGS +=
 CXXFLAGS += -Wall -Wextra $(EXTRA_CXXFLAGS)
 LDFLAGS +=

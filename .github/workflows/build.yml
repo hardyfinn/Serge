@@ -83,8 +83,7 @@ jobs:
       - name: Build
         run: |
           export RACK_DIR="$(pwd)/sdk/Rack-SDK"
-          # Newer MinGW GCC rejects some template code in the Rack 2 SDK headers.
-          make -j3 dist EXTRA_CXXFLAGS="-Wno-template-body -fpermissive"
+          make -j3 dist
       - uses: actions/upload-artifact@v4
         with:
           name: Serge-win-x64

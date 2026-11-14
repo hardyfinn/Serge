@@ -39,35 +39,40 @@ struct OsKernel {
 	}
 };
 
+// Histories are stored twice (at i and i + N) so the filter loops read one
+// contiguous block with no wrap-around arithmetic.
 struct Upsampler {
-	float hist[OS_TAPS_PER_PHASE] = {};
+	float hist[2 * OS_TAPS_PER_PHASE] = {};
 	int pos = 0;
 	// out[0..factor-1]
 	void process(const OsKernel& k, float x, float* out) {
 		if (k.factor == 1) { out[0] = x; return; }
-		pos = (pos + OS_TAPS_PER_PHASE - 1) % OS_TAPS_PER_PHASE;
-		hist[pos] = x;
+		const int N = OS_TAPS_PER_PHASE;
+		pos = (pos == 0) ? N - 1 : pos - 1;
+		hist[pos] = hist[pos + N] = x;
+		const float* h = hist + pos;
 		for (int p = 0; p < k.factor; p++) {
 			float acc = 0.f;
-			for (int j = 0; j < OS_TAPS_PER_PHASE; j++)
-				acc += k.h[j * k.factor + p] * hist[(pos + j) % OS_TAPS_PER_PHASE];
+			for (int j = 0; j < N; j++) acc += k.h[j * k.factor + p] * h[j];
 			out[p] = acc * k.factor;
 		}
 	}
-	void reset() { for (float& v : hist) v = 0.f; }
+	void reset() { for (float& v : hist) v = 0.f; pos = 0; }
 };
 
 struct Decimator {
-	float hist[OS_MAX_TAPS] = {};
+	float hist[2 * OS_MAX_TAPS] = {};
 	int pos = 0;
 	float process(const OsKernel& k, const float* in) {
 		if (k.factor == 1) return in[0];
+		const int N = k.taps;
 		for (int p = 0; p < k.factor; p++) {
-			pos = (pos + k.taps - 1) % k.taps;
-			hist[pos] = in[p];
+			pos = (pos == 0) ? N - 1 : pos - 1;
+			hist[pos] = hist[pos + N] = in[p];
 		}
+		const float* h = hist + pos;
 		float acc = 0.f;
-		for (int j = 0; j < k.taps; j++) acc += k.h[j] * hist[(pos + j) % k.taps];
+		for (int j = 0; j < N; j++) acc += k.h[j] * h[j];
 		return acc;
 	}
 	void reset() { for (float& v : hist) v = 0.f; pos = 0; }

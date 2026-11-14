@@ -69,7 +69,8 @@ struct NTO : Module {
 		}
 		prevSync = sync;
 		for (int j = 0; j < 4; j++)
-			outputs[SAW_OUTPUT + j].setVoltage(dec[j].process(os.kernel, b[j]));
+			if (outputs[SAW_OUTPUT + j].isConnected())
+				outputs[SAW_OUTPUT + j].setVoltage(dec[j].process(os.kernel, b[j]));
 	}
 };
 
