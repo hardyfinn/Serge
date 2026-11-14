@@ -11,7 +11,7 @@
 |---|---|
 | Faithful or inspired-by | **As faithful as possible to the original circuits. No modern extras.** |
 | Name | "Serge" is fine. This is a personal plugin and will not go to the VCV Library. |
-| Look | Paperface-style panels. |
+| Look | Paperface-style panels (colour, line work, coloured banana jacks), but with **accurate text labels on every control and jack**, not symbols (changed by Haer the same evening). |
 | Modules | Core + voice (no Wilson Analog Delay) + control (no TKB). |
 | Coverage goal | Should cover the Random\*Source "La Bestia" and Loudest Warning "Sing To Me" panels (see §2.2). |
 
@@ -25,7 +25,7 @@
 4. **Self-patching must work.** Serge patches route a module's output into its own input (DSG END to TRIG, SSG CYCLE to IN, VCFQ BP to IN). Rack adds one sample of cable delay, which is fine. Nothing may blow up, produce NaN or stick. Every state variable is clamped to the op-amp rails (§3.2) and every `process()` ends with an `isfinite` guard that resets state to 0.
 5. **DSP separate from Rack.** All models live in `src/dsp/` as plain C++17 with no Rack includes, so they can be unit tested on the host. `src/modules/*.cpp` are thin wrappers.
 6. **No allocation, locks, file I/O or logging in `process()`.**
-7. **Every param has a tooltip and unit, every port a name** (`configParam`, `configInput`, `configOutput`). Tooltips carry the text labels that the paperface panels deliberately leave sparse.
+7. **Every param has a tooltip and unit, every port a name** (`configParam`, `configInput`, `configOutput`). The tooltip name is the same wording as the printed panel label (§4.1), spelled out in full where the label is abbreviated.
 8. **Ambiguity:** pick the reading closest to the original hardware, write it in `docs/DECISIONS.md`, list it in the hand-over.
 9. **CPU:** each module under 1% of one core at 48 kHz, RESEQ under 2%.
 10. Licence GPL-3.0-or-later. Do not copy code from other plugins unless compatible, and credit it in `docs/CREDITS.md`.
@@ -152,33 +152,42 @@ The plugin uses Serge levels at every jack. This keeps every threshold and nonli
 
 ---
 
-## 4. Panels: paperface style
+## 4. Panels: paperface style with text labels
 
-The original "paperface" Serge panels (1973 to about 1976) were printed paper graphics under clear laminate on aluminium: off-white ground, black line art, **geometric symbols and waveform drawings instead of words**, a few small hand-drafted capitals, and coloured banana jacks.
+The original "paperface" Serge panels (1973 to about 1976) were printed paper graphics under clear laminate on aluminium: off-white ground, black line art and coloured banana jacks. This plugin keeps that look but **labels everything in words**, using the names Serge printed on the later labelled panels and in the catalog. Haer asked for accurate labels in place of the paperface symbols.
 
 ### 4.1 Look
 - Panel ground: warm off-white `#ece6d6` with a very faint paper grain (a low-contrast noise texture as an embedded pattern or a few hundred tiny 3% opacity specks; keep SVG size reasonable). 0.4 mm black border inset 1 mm. Four black "screw" circles are fine; use Rack's `ScrewBlack`.
 - Ink: `#161616`. Line weight 0.35 mm for graphics, 0.6 mm for section dividers.
-- **Function blocks:** each section of a module (for example each half of the DSG, each of the three Wave Multipliers) sits in its own outlined region. Controls and jacks that belong together are joined by thin lines, arcs and arrowheads showing signal flow: input jacks at the bottom or left with an arrow pointing in, outputs with an arrow pointing out.
-- **Symbols, not words**, wherever a symbol exists: rising and falling ramps for RISE and FALL; a step for trigger; a staircase for Stepped; a smooth curve for Smooth; drawn sine, triangle, saw waveforms next to oscillator outputs; filter response curves (LP, BP, HP, notch) next to filter outputs; a folded sine for the middle Wave Multiplier; a rectified sine for the bottom one; ± in a circle for attenuverters; a comparator triangle for COM.
-- **Small capitals** only where no symbol is clear: module abbreviation at the top (e.g. `DSG`), and labels such as `1V/OCT`, `VC`, `HOLD`, `SAMPLE`, `CYCLE`, `COUPLER`, `END`, `HI`/`LO`. Use a drafting-stencil style face (an OFL font such as "Share Tech Mono" or a hand-lettering look), 2.2 mm cap height, **converted to paths** (Rack does not render SVG text; `inkscape --export-text-to-path`, or build glyph paths in a script).
+- **Function blocks:** each section of a module (for example each half of the DSG, each of the three Wave Multipliers) sits in its own outlined region. Controls and jacks that belong together are joined by thin lines; a CV input is joined to the attenuator that scales it.
+- **Labels are text, and they are exact.**
+  - **Every knob, switch position, jack and LED has a printed text label.** No control is identified by a symbol alone. Do not draw waveform pictures, ramp icons, filter-curve icons, arrows-as-labels or other pictograms in place of words.
+  - **The label text is the Name given in that module's table in §5 to §8, verbatim, in capitals**: `RISE`, `FALL`, `VC`, `IN`, `TRIG`, `VC IN`, `1V/OCT`, `OUT`, `END`, `RATE`, `HOLD`, `SAMPLE`, `CYCLE`, `COUPLER`, `HOT COUPLER`, `FREQ`, `FINE`, `PORT`, `SAW`, `TRI`, `SINE`, `VAR`, `LOW`, `BAND`, `HIGH`, `NOTCH`, `HI` / `LO`, and so on. Those names are the ones used on Serge panels and in the Serge catalog; do not rename, translate or "improve" them.
+  - Where a table gives a description instead of a name, use these: VCM top knob `VC`, middle knob `FOLD`, bottom knob `VC`; VCM bottom outputs `OUT` and `SQUARED`; DSG switch positions `RISE`, `BOTH`, `FALL`; RESEQ band knobs labelled with their frequency exactly as `29`, `61`, `115`, `218`, `411`, `777`, `1.5K`, `2.8K`, `5.2K`, `11K`; RESEQ outputs `OUT`, `COMB ↑`, `COMB ↓` (the arrows are part of the original label and are the one permitted glyph); COM inputs `+` and `−`; attenuverter knobs carry the name of what they scale (`VC`, `VC F`, `VC Q`, `VC WAVE` ...), with small `−` and `+` at the ends of the knob scale.
+  - Sections of a multi-section module get a small section title: DSG `A` and `B`; SSG `SMOOTH` and `STEPPED`; VCM `1`, `2`, `3`; TWS `1`, `2`, `3`; COM, PRC, VCA2, MIX `A` and `B`; DCSM `1` and `2`; STR `A` and `B`.
+  - The module title at the top is the **full name** from the §2.1 "Panel name" column in capitals (wrap to two lines if needed), e.g. `DUAL UNIVERSAL SLOPE GENERATOR`, `SMOOTH & STEPPED GENERATOR`, `WAVE MULTIPLIERS`, `VARIABLE Q VCF`.
+  - Placement: a knob's label is centred **above** it; a jack's label is centred **below** it (above only if space forces it, and then consistently within the block). Labels never overlap a component, a line or each other, and are never rotated.
+  - Type: a plain, upright sans or drafting-stencil face (an OFL font such as "Share Tech Mono", "Jost" or "DIN"-style), all capitals, 2.2 mm cap height for labels, 1.8 mm minimum where space is tight, 3 mm for the module title. **Convert all text to paths** (Rack does not render SVG text; `inkscape --export-text-to-path`, or build glyph paths in a script).
+  - **The check:** the set of printed labels on a panel must equal the set of names in that module's table. `scripts/make_panels.py` must build both from one shared table and fail if a control has no label.
+- Inputs and outputs are told apart by wording (`IN`, `OUT`, and so on) and by position (§4.4). A thin outline box around each block's group of outputs is allowed.
 - No brand logo. The word `SERGE` in small capitals at the bottom of each panel.
 - Knob scales: a simple arc with a dot at each end and, for bipolar knobs, a tick at 12 o'clock.
 
 ### 4.2 Components (`res/components/`, `src/widgets/SergeComponents.hpp`)
-- **Banana jack ports**, one SVG per colour: `JackBlack`, `JackBlue` `#1f4fa8`, `JackRed` `#c0281c`, `JackYellow` `#e0b01a`. A banana socket seen from the front: a coloured plastic collar 8.4 mm across with a slightly lighter bevel ring and a 4 mm dark hole with a thin brass ring. Subclass `app::SvgPort`. The colour follows the signal type in §3.1 and each module's tables. Inputs and outputs use the same jack (as on the hardware); the panel arrows tell them apart.
+- **Banana jack ports**, one SVG per colour: `JackBlack`, `JackBlue` `#1f4fa8`, `JackRed` `#c0281c`, `JackYellow` `#e0b01a`. A banana socket seen from the front: a coloured plastic collar 8.4 mm across with a slightly lighter bevel ring and a 4 mm dark hole with a thin brass ring. Subclass `app::SvgPort`. The colour follows the signal type in §3.1 and each module's tables. Inputs and outputs use the same jack (as on the hardware); the printed labels tell them apart.
 - **Knob:** `SergeKnob`, the black fluted, skirted knob of the period (Davies 1900 type): 12 mm body, black with a white indicator line, subtle top highlight. Subclass `app::SvgKnob`, range −135° to +135°. A smaller `SergeKnobSmall` (9 mm) for attenuators if space demands.
 - **Switches:** `SergeToggle2`, `SergeToggle3`: chrome bat-handle toggles, 2 or 3 frame SVGs (`app::SvgSwitch`).
 - **LED:** red 3 mm (`MediumLight<RedLight>` is acceptable).
 - Cables: leave Rack's cable colours alone.
 
 ### 4.3 Making the SVGs
-Generate each panel with a script (`scripts/make_panels.py`, plain Python writing SVG) so positions come from the same table the C++ uses. Panel height 128.5 mm, width `HP × 5.08` mm. Include a hidden `components` layer with Rack's colour-coded placeholders if you use `helper.py`; otherwise place widgets in code with `mm2px(Vec(x, y))` from the shared table. Render every panel to PNG in CI (or locally with Playwright/Inkscape) and look at each one before hand-over: no overlaps, no clipped text, arrows pointing the right way.
+Generate each panel with a script (`scripts/make_panels.py`, plain Python writing SVG) so positions come from the same table the C++ uses. Panel height 128.5 mm, width `HP × 5.08` mm. Include a hidden `components` layer with Rack's colour-coded placeholders if you use `helper.py`; otherwise place widgets in code with `mm2px(Vec(x, y))` from the shared table. Render every panel to PNG in CI (or locally with Playwright/Inkscape) and look at each one before hand-over: no overlaps, no clipped text, every control and jack labelled with the right name.
 
 ### 4.4 Layout rules
 - Knobs in the upper part of each function block, jacks below them, outputs toward the right or top edge of the block, as on Serge panels.
 - Minimum centre spacing: jack to jack 10.5 mm, knob to knob 15 mm, knob to jack 13 mm.
 - A CV input sits directly under the attenuator knob that scales it, joined by a line.
+- Leave room for the labels: at least 4 mm of clear panel above each knob and below each jack. Widen the module rather than shrink or drop a label.
 
 ---
 
@@ -604,7 +613,7 @@ One section per module: what it is, a table of controls, and three or four class
 4. NTO, VCM, TWS, RING.
 5. VCFQ, VCFS, RESEQ.
 6. NOI, ASR, COM, STR, PRC, XFAD, VCA2, MIX, DCSM, PT.
-7. All panels drawn, rendered and inspected. Manual. Full test pass. CI green on all platforms.
+7. All panels drawn, rendered and inspected, including the label check of §4.1. Manual. Full test pass. CI green on all platforms.
 8. Hand-over note: what was built, the contents of `DECISIONS.md`, anything from §12 you could or could not verify, and install steps.
 
 ---
