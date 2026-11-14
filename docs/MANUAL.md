@@ -194,3 +194,95 @@ PEAK is the higher of A and B, TROUGH the lower. With one input patched both out
 4. DSG A: a clock into TRIG, RISE fully up, FALL around 10 o'clock. OUT → VCM 2 VC and VCA2 A VC.
 5. SSG stepped: NOI S/H SOURCE → IN, the same clock into SAMPLE, OUT → NTO 1V/OCT.
 6. Play with FOLD, VCFQ Q and the DSG FALL.
+
+---
+
+## More patch recipes
+
+Each recipe starts from an empty patch. "Clock" means any steady pulse: a Rack clock module, or a DSG cycling with END → TRIG. Send the final output to your audio interface through a Rack mixer if it is too quiet.
+
+### 1. Struck percussion from a pinged filter
+
+1. A clock → VCFQ TRIG.
+2. VCFQ Q near maximum, FREQ to taste. Take BAND out.
+3. For woodblocks, set FREQ high and Q a little lower. For bells and gongs, set Q fully up.
+4. For random tuned hits, SSG stepped: NOI S/H SOURCE → IN, the same clock → SAMPLE, OUT → VCFQ 1V/OCT.
+
+### 2. Bouncing ball
+
+A burst of hits that speeds up and dies away, like a dropped ball.
+
+1. DSG A: END A → TRIG A, so it cycles. RISE and FALL around 1 o'clock.
+2. DSG B: a slow trigger or a manual button → TRIG B. RISE B fully up (fast), FALL B slow, around 9 o'clock.
+3. OUT B → VC IN A. Switch A to BOTH and turn VC A anticlockwise, so A slows down while B is high.
+4. END A → VCFQ TRIG, VCFQ BAND to the output. Each new trigger into B drops the ball again.
+
+### 3. Two-slope chaos
+
+Two DSGs that bend each other's speed. They never quite repeat.
+
+1. DSG A: END A → TRIG A. DSG B: END B → TRIG B. Set both to slow cycles at different rates.
+2. OUT A → VC IN B, OUT B → VC IN A. Turn both VC knobs part way, one clockwise and one anticlockwise.
+3. Use OUT A and OUT B as tangled LFOs, and END A and END B as uneven rhythms.
+4. Raise both pairs of RISE and FALL into audio range for a rough, chaotic oscillator.
+
+### 4. FM bell
+
+1. NTO 1 is the carrier: SINE → VCA2 A IN.
+2. NTO 2 is the modulator: SINE → NTO 1 LIN FM. Tune NTO 2 to an odd ratio of NTO 1, such as 1.4 or 3.5 times, for metal and bell tones.
+3. DSG A: a clock → TRIG A, RISE fully up, FALL slow. OUT A → NTO 1 FM VC and VCA2 A VC.
+4. The strike is bright, and the tone darkens as it fades. FM sets the brightest point.
+
+### 5. Sync sweep
+
+1. NTO 1 SAW → NTO 2 SYNC. NTO 1 sets the pitch you hear.
+2. Tune NTO 2 a little flat of NTO 1, and take its VAR output with WAVE near saw.
+3. DSG A envelope OUT → NTO 2 FREQ CV, VC FREQ up. Each trigger sweeps the harmonics.
+4. Play both oscillators from the same pitch source through their 1V/OCT inputs.
+
+### 6. Octaves from the rectifiers
+
+1. NTO TRI → VCM 3 IN 1.
+2. A slow DSG or SSG LFO → VCM 3 VC. As it rises, the tone climbs through 2×, 4× and 8× the frequency.
+3. Mix VCM 3 OUT with the plain NTO TRI in MIX for an organ-like stack.
+
+### 7. Pulse-width modulation
+
+Serge has no pulse oscillator. You make one from a comparator.
+
+1. NTO TRI → COM A +.
+2. A slow LFO (DSG A cycling, or SSG smooth CYCLE) → COM A −.
+3. COM A OUT is a pulse whose width follows the LFO.
+4. The pulse runs from 0 to +5 V. To centre it on 0 V, put it through PRC A IN 1 and set OFFSET to −2.5 V.
+
+### 8. Canon from the shift register
+
+1. NOI S/H SOURCE → ASR IN, a clock → ASR PULSE.
+2. ASR OUT 1, OUT 2 and OUT 3 → the 1V/OCT inputs of three voices. Each voice plays the tune one step after the last.
+3. With only one NTO, use the voice from "A first Serge voice" on OUT 1, and pitch two pinged VCFQs (recipe 1) from OUT 2 and OUT 3.
+4. Patch ASR PULSE OUT into a second ASR for a six-voice round.
+
+### 9. Talking formants
+
+1. NTO SAW → RESEQ IN.
+2. Turn two or three neighbouring bands past 3 o'clock so they ring, and pull the others below 9 o'clock.
+3. Change which bands are raised to move between vowel-like sounds.
+4. For a wide stereo image, RESEQ COMB UP → DCSM 1: IN and COMB DOWN → DCSM 2: IN, PAN 1 left and PAN 2 right.
+
+### 10. Wandering stereo
+
+1. SSG smooth: NOI S/H SOURCE → Smooth IN, Smooth RATE low.
+2. Smooth OUT → DCSM 1: PAN CV and 2: PAN CV.
+3. Two different sounds into DCSM 1: IN and 2: IN. They drift around each other, always in opposite directions.
+
+### 11. Auto-wah from an envelope follower
+
+1. Any audio, such as a drum loop or a Rack oscillator, → DSG A IN and VCFQ IN.
+2. RISE A fully up, FALL A around noon. OUT A now follows the loudness.
+3. OUT A → VCFQ F CV, with VC F up and some Q. Take BAND or LOW. Louder playing opens the filter.
+
+### 12. Shapes from Peak & Trough
+
+1. Two LFOs at different rates, such as DSG A and SSG smooth CYCLE → PT A and B.
+2. PEAK and TROUGH give new, lopsided shapes that change as the two LFOs drift apart.
+3. PEAK → NTO FREQ CV for a pitch that never falls below whichever LFO is higher.

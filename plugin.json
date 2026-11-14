@@ -15,7 +15,7 @@
   "modules": [
     {
       "slug": "DSG",
-      "name": "Dual Universal Slope Generator",
+      "name": "Dual Universal Slope Generator (DSG)",
       "description": "Two slope generators: envelope, LFO, oscillator, slew, divider, follower.",
       "tags": [
         "Envelope generator",
@@ -27,7 +27,7 @@
     },
     {
       "slug": "SSG",
-      "name": "Smooth & Stepped Generator",
+      "name": "Smooth & Stepped Generator (SSG)",
       "description": "Slew limiter with hold, sample-and-hold with slew limiting, and a coupler comparator.",
       "tags": [
         "Slew limiter",
@@ -39,7 +39,7 @@
     },
     {
       "slug": "NTO",
-      "name": "New Timbral Oscillator",
+      "name": "New Timbral Oscillator (NTO)",
       "description": "VCO with saw, triangle, sine and variable outputs, linear FM, sync and portamento.",
       "tags": [
         "Oscillator",
@@ -48,7 +48,7 @@
     },
     {
       "slug": "VCM",
-      "name": "Wave Multipliers",
+      "name": "Wave Multipliers (VCM)",
       "description": "Three waveshapers: VCA or squarer, odd-harmonic folder, even-harmonic rectifiers.",
       "tags": [
         "Waveshaper",
@@ -58,7 +58,7 @@
     },
     {
       "slug": "VCFQ",
-      "name": "Variable Q VCF",
+      "name": "Variable Q VCF (VCFQ)",
       "description": "State-variable filter with voltage-controlled Q, AGC input and trigger ringing.",
       "tags": [
         "Filter",
@@ -67,7 +67,7 @@
     },
     {
       "slug": "VCFS",
-      "name": "Variable Slope VCF",
+      "name": "Variable Slope VCF (VCFS)",
       "description": "State-variable filter whose slope runs from 6 dB/oct to resonant.",
       "tags": [
         "Filter",
@@ -76,7 +76,7 @@
     },
     {
       "slug": "RESEQ",
-      "name": "Resonant Equalizer",
+      "name": "Resonant Equalizer (RESEQ)",
       "description": "Ten fixed bands spaced at major sevenths, with two comb outputs.",
       "tags": [
         "Equalizer",
@@ -85,7 +85,7 @@
     },
     {
       "slug": "TWS",
-      "name": "Triple Waveshaper",
+      "name": "Triple Waveshaper (TWS)",
       "description": "Three shapers that turn a sawtooth into a sine.",
       "tags": [
         "Waveshaper"
@@ -93,7 +93,7 @@
     },
     {
       "slug": "RING",
-      "name": "Ring Modulator",
+      "name": "Ring Modulator (RING)",
       "description": "Ring modulator with a dry-to-AM-to-ring control and carrier shaping.",
       "tags": [
         "Ring modulator"
@@ -101,7 +101,7 @@
     },
     {
       "slug": "NOI",
-      "name": "Noise Source",
+      "name": "Noise Source (NOI)",
       "description": "White, pink and S/H source noise.",
       "tags": [
         "Noise",
@@ -110,7 +110,7 @@
     },
     {
       "slug": "ASR",
-      "name": "Analog Shift Register",
+      "name": "Analog Shift Register (ASR)",
       "description": "Three-stage analog shift register.",
       "tags": [
         "Sample and hold"
@@ -118,7 +118,7 @@
     },
     {
       "slug": "COM",
-      "name": "Dual Comparator",
+      "name": "Dual Comparator (COM)",
       "description": "Two comparators with threshold knobs.",
       "tags": [
         "Logic",
@@ -127,7 +127,7 @@
     },
     {
       "slug": "STR",
-      "name": "Dual Schmitt Trigger",
+      "name": "Dual Schmitt Trigger (STR)",
       "description": "Two Schmitt triggers and a set-reset flip-flop.",
       "tags": [
         "Logic",
@@ -136,7 +136,7 @@
     },
     {
       "slug": "PRC",
-      "name": "Dual Processor",
+      "name": "Dual Processor (PRC)",
       "description": "Two three-input attenuverting mixers with offset.",
       "tags": [
         "Attenuator",
@@ -147,7 +147,7 @@
     },
     {
       "slug": "XFAD",
-      "name": "Cross-Fader",
+      "name": "Cross-Fader (XFAD)",
       "description": "Equal-power cross-fader with output VCA.",
       "tags": [
         "Mixer",
@@ -156,7 +156,7 @@
     },
     {
       "slug": "VCA2",
-      "name": "Dual VCA",
+      "name": "Dual VCA (VCA2)",
       "description": "Two exponential VCAs.",
       "tags": [
         "VCA",
@@ -165,7 +165,7 @@
     },
     {
       "slug": "MIX",
-      "name": "Dual Audio Mixer",
+      "name": "Dual Audio Mixer (MIX)",
       "description": "Two four-input mixers.",
       "tags": [
         "Mixer",
@@ -174,7 +174,7 @@
     },
     {
       "slug": "DCSM",
-      "name": "Dual Channel Stereo Mixer",
+      "name": "Dual Channel Stereo Mixer (DCSM)",
       "description": "Two voltage-controlled stereo channels with opposite pan CV.",
       "tags": [
         "Mixer",
@@ -184,7 +184,7 @@
     },
     {
       "slug": "PT",
-      "name": "Peak & Trough",
+      "name": "Peak & Trough (PT)",
       "description": "Higher and lower of two voltages.",
       "tags": [
         "Utility"
