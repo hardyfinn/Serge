@@ -24,3 +24,7 @@ extern Model* modelVCA2;
 extern Model* modelMIX;
 extern Model* modelDCSM;
 extern Model* modelPT;
+extern Model* modelWAD;
+extern Model* modelFRS;
+extern Model* modelBDR;
+extern Model* modelPDIV;

@@ -23,4 +23,8 @@ void init(Plugin* p) {
 	p->addModel(modelMIX);
 	p->addModel(modelDCSM);
 	p->addModel(modelPT);
+	p->addModel(modelWAD);
+	p->addModel(modelFRS);
+	p->addModel(modelBDR);
+	p->addModel(modelPDIV);
 }

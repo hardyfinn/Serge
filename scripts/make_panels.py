@@ -595,6 +595,84 @@ p.jack("TROUGH_OUTPUT", "TROUGH", x, 86, "blue")
 P.append(p)
 
 
+# 20. WAD --------------------------------------------------------------------
+p = Panel("WAD", "WILSON ANALOG DELAY", 16)
+c4 = cols(4, 11.5, 69.8)
+p.section("DELAY", 2.0, 15.5, 40.14, 55.0)
+p.section("FILTER", 41.14, 15.5, 79.28, 55.0)
+p.knob("DELAY_PARAM", "DELAY", c4[0], 29)
+p.knob("VCDELAY_PARAM", "VC DELAY", c4[1], 29, bipolar=True)
+p.knob("FILTER_PARAM", "FILTER", c4[2], 29)
+p.knob("VCFILTER_PARAM", "VC FILTER", c4[3], 29, bipolar=True)
+p.jack("DELAYCV_INPUT", "DELAY CV", c4[1], 45, "blue")
+p.jack("FILTERCV_INPUT", "FILTER CV", c4[3], 45, "blue")
+p.link("VCDELAY_PARAM", "DELAYCV_INPUT")
+p.link("VCFILTER_PARAM", "FILTERCV_INPUT")
+p.section("INPUTS", 2.0, 57.0, 79.28, 95.0)
+p.knob("IN1_PARAM", "IN 1", c4[0], 70)
+p.knob("IN2_PARAM", "IN 2", c4[1], 70)
+p.knob("IN3_PARAM", "IN 3", c4[2], 70, bipolar=True)
+p.knob("FLANGE_PARAM", "FLANGE", c4[3], 70)
+p.jack("IN1_INPUT", "IN 1", c4[0], 86, "black")
+p.jack("IN2_INPUT", "IN 2", c4[1], 86, "black")
+p.switch("SOURCE_PARAM", ["A", "B", "AUX"], c4[2] - 2.2, 86)
+p.jack("AUX_INPUT", "AUX", c4[3], 86, "black")
+p.link("IN1_PARAM", "IN1_INPUT")
+p.link("IN2_PARAM", "IN2_INPUT")
+p.section("OUTPUTS", 2.0, 97.0, 79.28, 119.5)
+for x, (pid, lab, col) in zip(c4, [("A_OUTPUT", "A", "black"), ("B_OUTPUT", "B", "black"), ("FLANGE_OUTPUT", "FLANGE", "black"), ("VOCT_OUTPUT", "1V/OCT", "blue")]):
+    p.jack(pid, lab, x, 107, col)
+P.append(p)
+
+# 21. FRS --------------------------------------------------------------------
+p = Panel("FRS", "FREQUENCY\nSHIFTER", 12)
+c3 = cols(3, 11.0, 49.96)
+p.section("OSCILLATOR", 2.0, 15.5, 58.96, 55.0)
+p.knob("FREQ_PARAM", "FREQ", c3[0], 29)
+p.knob("VCFREQ_PARAM", "VC FREQ", c3[1], 29, bipolar=True)
+p.jack("OSC0_OUTPUT", "0°", c3[2], 29, "black")
+p.jack("VOCT_INPUT", "1V/OCT", c3[0], 45, "blue")
+p.jack("FREQCV_INPUT", "FREQ CV", c3[1], 45, "blue")
+p.jack("OSC90_OUTPUT", "90°", c3[2], 45, "black")
+p.link("VCFREQ_PARAM", "FREQCV_INPUT")
+p.section("SHIFTER", 2.0, 57.0, 58.96, 95.0)
+p.knob("UP_PARAM", "UP", c3[0], 70)
+p.knob("DOWN_PARAM", "DOWN", c3[1], 70)
+p.jack("IN_INPUT", "IN", c3[2], 70, "black")
+p.jack("VCUP_INPUT", "VC UP", c3[0], 86, "blue")
+p.jack("VCDOWN_INPUT", "VC DOWN", c3[1], 86, "blue")
+p.link("UP_PARAM", "VCUP_INPUT")
+p.link("DOWN_PARAM", "VCDOWN_INPUT")
+p.section("OUT", 2.0, 97.0, 58.96, 119.5)
+for x, (pid, lab) in zip(c3, [("UP_OUTPUT", "UP"), ("DOWN_OUTPUT", "DOWN"), ("COMP_OUTPUT", "COMP")]):
+    p.jack(pid, lab, x, 107, "black")
+P.append(p)
+
+# 22. BDR --------------------------------------------------------------------
+p = Panel("BDR", "BI-DIRECTIONAL\nROUTER", 12)
+cj = cols(3, 24.0, 51.0)
+for i, top in enumerate([15.5, 50.0, 84.5]):
+    n = i + 1
+    p.section(str(n), 2.0, top, 58.96, top + 33.0)
+    s1, s2 = top + 3.2, top + 18.2
+    p.section("1 TO 2", 16.5, s1, 57.96, s1 + 13.6)
+    p.section("2 TO 1", 16.5, s2, 57.96, s2 + 13.6)
+    p.jack(f"SELECT{n}_INPUT", "SELECT", 9.0, top + 17.0, "red")
+    for x, (pid, lab) in zip(cj, [(f"BIN{n}_INPUT", "B IN"), (f"A1OUT{n}_OUTPUT", "A1 OUT"), (f"A2OUT{n}_OUTPUT", "A2 OUT")]):
+        p.jack(pid, lab, x, s1 + 6.0, "black")
+    for x, (pid, lab) in zip(cj, [(f"A1IN{n}_INPUT", "A1 IN"), (f"A2IN{n}_INPUT", "A2 IN"), (f"BOUT{n}_OUTPUT", "B OUT")]):
+        p.jack(pid, lab, x, s2 + 6.0, "black")
+P.append(p)
+
+# 23. PDIV -------------------------------------------------------------------
+p = Panel("PDIV", "PULSE\nDIVIDER", 6)
+p.jack("IN_INPUT", "IN", 15.24, 28, "red")
+p.section("OUT", 3.0, 40.0, 27.48, 119.5)
+xl, xr = 9.4, 21.1
+for k, (x, y) in zip(range(2, 9), [(xl, 51), (xr, 51), (xl, 65), (xr, 65), (xl, 79), (xr, 79), (15.24, 94)]):
+    p.jack(f"DIV{k}_OUTPUT", f"÷{k}", x, y, "red")
+P.append(p)
+
 # ---------------------------------------------------------------- components
 def components():
     c = {}

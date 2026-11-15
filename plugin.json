@@ -1,7 +1,7 @@
 {
   "slug": "Serge",
   "name": "Serge",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "license": "GPL-3.0-or-later",
   "brand": "Serge",
   "author": "Haer",
@@ -188,6 +188,44 @@
       "description": "Higher and lower of two voltages.",
       "tags": [
         "Utility"
+      ]
+    },
+    {
+      "slug": "WAD",
+      "name": "Wilson Analog Delay (WAD)",
+      "description": "Bucket-brigade delay with taps at one and two times the delay, switched feedback, voltage-controlled filters, flange and 1 V/oct outputs.",
+      "tags": [
+        "Delay",
+        "Flanger",
+        "Chorus"
+      ]
+    },
+    {
+      "slug": "FRS",
+      "name": "Frequency Shifter (FRS)",
+      "description": "Single-sideband frequency shifter with its own quadrature oscillator, UP and DOWN outputs with VCAs, and a compressed output.",
+      "tags": [
+        "Effect",
+        "Ring modulator",
+        "Oscillator"
+      ]
+    },
+    {
+      "slug": "BDR",
+      "name": "Bi-Directional Router (BDR)",
+      "description": "Three voltage-controlled switches: one signal to either of two places, or either of two signals to one.",
+      "tags": [
+        "Switch",
+        "Utility"
+      ]
+    },
+    {
+      "slug": "PDIV",
+      "name": "Pulse Divider (PDIV)",
+      "description": "Divides a pulse train by 2, 3, 4, 5, 6, 7 and 8 at once.",
+      "tags": [
+        "Clock modulator",
+        "Logic"
       ]
     }
   ]

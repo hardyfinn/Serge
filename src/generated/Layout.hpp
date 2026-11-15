@@ -284,3 +284,76 @@ inline void placePT(W* w, M* m) {
 	w->addOutput(createOutputCentered<JackBlue>(mm2px(Vec(10.160f, 70.000f)), m, M::PEAK_OUTPUT));
 	w->addOutput(createOutputCentered<JackBlue>(mm2px(Vec(10.160f, 86.000f)), m, M::TROUGH_OUTPUT));
 }
+template <class M, class W>
+inline void placeWAD(W* w, M* m) {
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(11.500f, 29.000f)), m, M::DELAY_PARAM));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(30.933f, 29.000f)), m, M::VCDELAY_PARAM));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(50.367f, 29.000f)), m, M::FILTER_PARAM));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(69.800f, 29.000f)), m, M::VCFILTER_PARAM));
+	w->addInput(createInputCentered<JackBlue>(mm2px(Vec(30.933f, 45.000f)), m, M::DELAYCV_INPUT));
+	w->addInput(createInputCentered<JackBlue>(mm2px(Vec(69.800f, 45.000f)), m, M::FILTERCV_INPUT));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(11.500f, 70.000f)), m, M::IN1_PARAM));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(30.933f, 70.000f)), m, M::IN2_PARAM));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(50.367f, 70.000f)), m, M::IN3_PARAM));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(69.800f, 70.000f)), m, M::FLANGE_PARAM));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(11.500f, 86.000f)), m, M::IN1_INPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(30.933f, 86.000f)), m, M::IN2_INPUT));
+	w->addParam(createParamCentered<SergeToggle3>(mm2px(Vec(48.167f, 86.000f)), m, M::SOURCE_PARAM));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(69.800f, 86.000f)), m, M::AUX_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(11.500f, 107.000f)), m, M::A_OUTPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(30.933f, 107.000f)), m, M::B_OUTPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(50.367f, 107.000f)), m, M::FLANGE_OUTPUT));
+	w->addOutput(createOutputCentered<JackBlue>(mm2px(Vec(69.800f, 107.000f)), m, M::VOCT_OUTPUT));
+}
+template <class M, class W>
+inline void placeFRS(W* w, M* m) {
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(11.000f, 29.000f)), m, M::FREQ_PARAM));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(30.480f, 29.000f)), m, M::VCFREQ_PARAM));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(49.960f, 29.000f)), m, M::OSC0_OUTPUT));
+	w->addInput(createInputCentered<JackBlue>(mm2px(Vec(11.000f, 45.000f)), m, M::VOCT_INPUT));
+	w->addInput(createInputCentered<JackBlue>(mm2px(Vec(30.480f, 45.000f)), m, M::FREQCV_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(49.960f, 45.000f)), m, M::OSC90_OUTPUT));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(11.000f, 70.000f)), m, M::UP_PARAM));
+	w->addParam(createParamCentered<SergeKnob>(mm2px(Vec(30.480f, 70.000f)), m, M::DOWN_PARAM));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(49.960f, 70.000f)), m, M::IN_INPUT));
+	w->addInput(createInputCentered<JackBlue>(mm2px(Vec(11.000f, 86.000f)), m, M::VCUP_INPUT));
+	w->addInput(createInputCentered<JackBlue>(mm2px(Vec(30.480f, 86.000f)), m, M::VCDOWN_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(11.000f, 107.000f)), m, M::UP_OUTPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(30.480f, 107.000f)), m, M::DOWN_OUTPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(49.960f, 107.000f)), m, M::COMP_OUTPUT));
+}
+template <class M, class W>
+inline void placeBDR(W* w, M* m) {
+	w->addInput(createInputCentered<JackRed>(mm2px(Vec(9.000f, 32.500f)), m, M::SELECT1_INPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(24.000f, 24.700f)), m, M::BIN1_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(37.500f, 24.700f)), m, M::A1OUT1_OUTPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(51.000f, 24.700f)), m, M::A2OUT1_OUTPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(24.000f, 39.700f)), m, M::A1IN1_INPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(37.500f, 39.700f)), m, M::A2IN1_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(51.000f, 39.700f)), m, M::BOUT1_OUTPUT));
+	w->addInput(createInputCentered<JackRed>(mm2px(Vec(9.000f, 67.000f)), m, M::SELECT2_INPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(24.000f, 59.200f)), m, M::BIN2_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(37.500f, 59.200f)), m, M::A1OUT2_OUTPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(51.000f, 59.200f)), m, M::A2OUT2_OUTPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(24.000f, 74.200f)), m, M::A1IN2_INPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(37.500f, 74.200f)), m, M::A2IN2_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(51.000f, 74.200f)), m, M::BOUT2_OUTPUT));
+	w->addInput(createInputCentered<JackRed>(mm2px(Vec(9.000f, 101.500f)), m, M::SELECT3_INPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(24.000f, 93.700f)), m, M::BIN3_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(37.500f, 93.700f)), m, M::A1OUT3_OUTPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(51.000f, 93.700f)), m, M::A2OUT3_OUTPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(24.000f, 108.700f)), m, M::A1IN3_INPUT));
+	w->addInput(createInputCentered<JackBlack>(mm2px(Vec(37.500f, 108.700f)), m, M::A2IN3_INPUT));
+	w->addOutput(createOutputCentered<JackBlack>(mm2px(Vec(51.000f, 108.700f)), m, M::BOUT3_OUTPUT));
+}
+template <class M, class W>
+inline void placePDIV(W* w, M* m) {
+	w->addInput(createInputCentered<JackRed>(mm2px(Vec(15.240f, 28.000f)), m, M::IN_INPUT));
+	w->addOutput(createOutputCentered<JackRed>(mm2px(Vec(9.400f, 51.000f)), m, M::DIV2_OUTPUT));
+	w->addOutput(createOutputCentered<JackRed>(mm2px(Vec(21.100f, 51.000f)), m, M::DIV3_OUTPUT));
+	w->addOutput(createOutputCentered<JackRed>(mm2px(Vec(9.400f, 65.000f)), m, M::DIV4_OUTPUT));
+	w->addOutput(createOutputCentered<JackRed>(mm2px(Vec(21.100f, 65.000f)), m, M::DIV5_OUTPUT));
+	w->addOutput(createOutputCentered<JackRed>(mm2px(Vec(9.400f, 79.000f)), m, M::DIV6_OUTPUT));
+	w->addOutput(createOutputCentered<JackRed>(mm2px(Vec(21.100f, 79.000f)), m, M::DIV7_OUTPUT));
+	w->addOutput(createOutputCentered<JackRed>(mm2px(Vec(15.240f, 94.000f)), m, M::DIV8_OUTPUT));
+}
