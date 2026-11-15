@@ -58,7 +58,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           # Anything of ours left undefined would make Rack refuse to load the plugin.
-          if nm -D --undefined-only plugin.so | c++filt | grep -E "serge::|Serge|DSG|SSG|NTO|VCM|VCF|RESEQ|TWS|RING|NOI|ASR|COM|STR|PRC|XFAD|VCA2|MIX|DCSM|PT::"; then exit 1; fi
+          if nm -D --undefined-only plugin.so | c++filt | grep -E "serge::|Serge|DSG|SSG|NTO|VCM|VCF|RESEQ|TWS|RING|NOI|ASR|COM|STR|PRC|XFAD|VCA2|MIX|DCSM|PT::|WAD|FRS|BDR|PDIV"; then exit 1; fi
       - uses: actions/upload-artifact@v4
         with:
           name: Serge-${{ matrix.name }}
