@@ -38,3 +38,17 @@ Where the build departs from, or fills a gap in, `docs/BUILD-INSTRUCTIONS.md`. E
 ## Not verified
 
 22. No schematic was reachable as text, so none of the estimated constants in §12 of the spec could be checked against a circuit. They stand as specified, apart from items 1 and 2 above.
+
+## Round two (WAD, FRS, BDR, PDIV)
+
+Spec: `docs/BUILD-INSTRUCTIONS-ROUND-2.md`.
+
+23. **BDR jacks.** A Rack port is one-way, so each router section has its 1-to-2 jacks and its 2-to-1 jacks side by side, both steered by the same SELECT (spec §3.2).
+24. **BDR and WAD output limits.** The band-limiting correction at a switching instant (BDR) or a bucket-brigade step (WAD) can overshoot by up to half a jump. Those outputs pass through the rail clip so they stay within ±10.5 V.
+25. **BDR band-limiting** gives 30 dB less aliasing than plain switching when SELECT is a smooth signal crossing its thresholds. With a SELECT that jumps in one sample (a pulse from another module) the crossing time is unknown inside the sample and the gain is smaller.
+26. **PDIV width.** Seven outputs with labels do not fit in one column of 4 HP under the spacing rules, so PDIV is 6 HP with the outputs in two columns.
+27. **WAD speed.** The line's soft limit is a rational fit of `6·tanh(v/6)` (within 2%), and its hiss is uniform rather than Gaussian (same 1 mV RMS), so the delay costs about 0.6% of a core even at its 1 MHz shortest-delay clock.
+28. **FRS oscillator.** Computed exactly once per host sample and rotated between oversampled sub-samples.
+29. **FRS aliasing test.** The spec's case (15 kHz shifted up 5 kHz) puts the result at 20 kHz, in the oversampler's transition band, and never aliases at the host rate. The test instead shifts 18 kHz up 8 kHz to 26 kHz and checks that nothing folds back below 20 kHz.
+30. **WAD tests.** The filtered-aliasing test uses a 400 Hz filter setting rather than 500 Hz to clear −40 dB with margin. The Karplus-Strong pitch is measured by autocorrelation, since zero crossings follow the bright upper partials; it rings at 217.4 Hz for a nominal 220 Hz (1.2% flat, from the filters and the one-sample loop).
+31. **Not verified.** As in round one, no schematic was readable as text. The FRS control list and every constant in spec §8's estimates list stand as specified.

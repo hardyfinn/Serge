@@ -40,6 +40,10 @@ These modules use the levels of a real Serge system, not Rack's usual ones.
 | MIX | Dual Audio Mixer | two small mixers |
 | DCSM | Dual Channel Stereo Mixer | stereo mixer with panning |
 | PT | Peak & Trough | higher and lower of two signals |
+| WAD | Wilson Analog Delay | bucket-brigade delay, flanger, chorus |
+| FRS | Frequency Shifter | shifts every partial by the same number of hertz |
+| BDR | Bi-Directional Router | three voltage-controlled switches |
+| PDIV | Pulse Divider | divides a clock by 2 to 8 at once |
 
 ---
 
@@ -184,6 +188,75 @@ Two channels, each with GAIN (scaled by GAIN CV, 0 to 5 V) and PAN (offset by PA
 
 PEAK is the higher of A and B, TROUGH the lower. With one input patched both outputs follow it.
 
+
+## WAD: Wilson Analog Delay
+
+A bucket-brigade delay. The signal is stored as a chain of samples taken by an internal clock, so a faster clock means a shorter delay. Two outputs tap the chain: B is always twice the delay of A. Long delays sound darker and grainier, and a bright sound at a long delay with the filter open picks up metallic, out-of-tune tones from the clock. That is the sound of the original circuit.
+
+| Control | |
+|---|---|
+| DELAY | delay time. Clockwise is longer: A runs from 0.5 ms to 2.5 s, and B is twice A |
+| VC DELAY, DELAY CV | voltage control of the clock. A positive CV with VC DELAY clockwise makes the delay **shorter**, 1 octave per volt at the end of the knob, like a pitch input |
+| FILTER, VC FILTER, FILTER CV | low-pass filters before and after the delay line, 20 Hz to 20 kHz. They do not follow DELAY by themselves |
+| IN 1, IN 2 | two inputs, each with its level knob. IN 2 is good for control voltages |
+| IN 3 | feedback level. Clockwise feeds back in phase, anticlockwise inverts it |
+| A / B / AUX | where IN 3 takes its feedback from: output A, output B, or the AUX jack |
+| AUX | an external return for the feedback, for example through a filter or a VCA |
+| FLANGE | depth: how much of A is mixed with the dry input at the FLANGE output |
+| 1V/OCT | follows the delay clock. Patch it into FILTER CV, or into another filter, so the filter tracks the delay |
+
+Try this:
+- **Echo:** switch at B, IN 3 around 2 o'clock, FILTER around 1 o'clock.
+- **Flanger:** a slow DSG or SSG triangle into DELAY CV, VC DELAY a little clockwise, DELAY short. Listen at FLANGE.
+- **Chorus:** as the flanger with a slightly longer DELAY, then mix A with the dry sound in MIX.
+- **Clean long delays:** 1V/OCT → FILTER CV with VC FILTER fully clockwise.
+- **Delaying a control voltage:** an envelope into IN 2, read it at A or B. Slow signals can be held back for many seconds.
+
+## FRS: Frequency Shifter
+
+Moves every part of a sound up or down by the same number of hertz. It does not transpose: a note with partials at 200, 400 and 600 Hz shifted by 50 Hz has partials at 250, 450 and 650 Hz, so harmonic sounds turn bell-like and metallic. Small shifts of a few hertz give phasing and rotating-speaker effects.
+
+| Control | |
+|---|---|
+| FREQ | the shift, from 0.05 Hz to 5 kHz |
+| VC FREQ, FREQ CV, 1V/OCT | exponential control of the shift; 1V/OCT is calibrated |
+| UP, DOWN | output levels. With VC UP or VC DOWN patched, the knob scales the CV (0 to 5 V) |
+| UP, DOWN outputs | the input shifted up, and shifted down. Shifting down past 0 Hz folds back up |
+| COMP | a compressed copy of the input, levelled toward ±2.5 V |
+| 0°, 90° | the internal oscillator: two sines a quarter cycle apart, ±2.5 V. A quadrature LFO or oscillator in its own right |
+
+Try this:
+- **Bells:** NTO TRI → IN, a shift of 30 to 200 Hz, mix UP and DOWN.
+- **Barber-pole echo:** UP → WAD IN 1, WAD A back into FRS IN through MIX with the dry sound, shift of 1 to 5 Hz. Each echo is a little higher than the last.
+- **Stereo drift:** a shift below 1 Hz, UP and DOWN to the two channels of DCSM, panned apart.
+- **Two-phase LFO:** 0° and 90° into the two PAN CV inputs of DCSM.
+
+## BDR: Bi-Directional Router
+
+Three electronic switches. SELECT decides the route: low (below 2.5 V, or unpatched) selects A1, high selects A2. It switches instantly, so an audio-rate signal into SELECT chops between the two routes.
+
+On the hardware each switch passes signals in either direction through the same jacks. A Rack jack can only be an input or an output, so each section has both directions as separate jacks, steered by the same SELECT:
+
+| Block | |
+|---|---|
+| 1 TO 2 | B IN goes to A1 OUT or A2 OUT. The unselected output is 0 V |
+| 2 TO 1 | A1 IN or A2 IN goes to B OUT |
+
+Signals are limited to ±7 V, as on the original CMOS switches.
+
+Try this:
+- **Alternating notes:** two ASR outputs into A1 IN and A2 IN, PDIV ÷2 into SELECT, B OUT to NTO 1V/OCT.
+- **Chopping:** two different sounds into A1 IN and A2 IN, an NTO SAW into SELECT.
+- **A patch that rewires itself:** an envelope into B IN, A1 OUT to VCFQ F CV and A2 OUT to VCM 2 VC, SSG COUPLER into SELECT.
+
+## PDIV: Pulse Divider
+
+One input and seven outputs, firing on every 2nd, 3rd, 4th, 5th, 6th, 7th and 8th pulse. Each output goes high on its Nth pulse and low again on the next, so ÷2 is a square wave at half the input rate. Any signal can drive IN: it counts each rise through +2.5 V.
+
+Try this:
+- **Polyrhythm:** one clock into IN, ÷3 and ÷4 pinging two VCFQs.
+- **Sub-harmonics:** NTO SAW into IN, ÷2, ÷3 and ÷4 into MIX. The outputs run 0 to +5 V, so centre them through PRC with OFFSET at −2.5 V.
+
 ---
 
 ## A first Serge voice
@@ -286,3 +359,22 @@ Serge has no pulse oscillator. You make one from a comparator.
 1. Two LFOs at different rates, such as DSG A and SSG smooth CYCLE → PT A and B.
 2. PEAK and TROUGH give new, lopsided shapes that change as the two LFOs drift apart.
 3. PEAK → NTO FREQ CV for a pitch that never falls below whichever LFO is higher.
+
+### 13. Plucked string
+
+1. NOI WHITE → VCA2 A IN. DSG A: a clock into TRIG, RISE fully up, FALL fully up. OUT A → VCA2 A VC. This makes a short click of noise.
+2. VCA2 A OUT → WAD IN 1. Switch at A, IN 3 nearly fully clockwise, DELAY short.
+3. A pitch into WAD DELAY CV with VC DELAY fully clockwise. FILTER sets how quickly the string dulls. Listen at A.
+
+### 14. Shifted feedback
+
+1. Any sound → MIX A IN 1. MIX A OUT → FRS IN.
+2. FRS UP → WAD IN 1, switch at A, IN 3 off, DELAY around 10 o'clock.
+3. WAD A → MIX A IN 2, level below noon. FRS shift between 1 and 10 Hz.
+4. Each pass round the loop climbs a little higher: the classic endless rising echo.
+
+### 15. Self-switching patch
+
+1. BDR 1: an envelope from DSG A into B IN. A1 OUT → VCFQ F CV, A2 OUT → VCM 2 VC.
+2. SSG: both sections cycling at different rates, COUPLER → BDR 1 SELECT.
+3. The envelope moves between brightening the filter and the folder as the SSG drifts.
