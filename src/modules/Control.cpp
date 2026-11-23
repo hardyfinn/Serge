@@ -154,7 +154,7 @@ struct XFAD : Module {
 	XFAD() {
 		config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 		configParam(FADE_PARAM, 0.f, 1.f, 0.5f, "FADE (IN 1 to IN 2, equal power)", "%", 0.f, 100.f);
-		configParam(GAIN_PARAM, 0.f, 1.f, 1.f, "GAIN", "%", 0.f, 100.f);
+		configParam(GAIN_PARAM, 0.f, 1.f, 1.f, "GAIN", "%", 0.f, 100.f)->randomizeEnabled = false;
 		configInput(FADECV_INPUT, "FADE CV");
 		configInput(GAINCV_INPUT, "GAIN CV (0 to 5 V, scaled by GAIN)");
 		configInput(IN1_INPUT, "IN 1");
@@ -185,7 +185,7 @@ struct VCA2 : Module {
 		config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 		for (int s = 0; s < 2; s++) {
 			const char* n = s ? "B" : "A";
-			configParam(GAIN_A_PARAM + s, 0.f, 1.f, 0.f, string::f("%s: GAIN (adds to VC)", n), " V", 0.f, 5.5f);
+			configParam(GAIN_A_PARAM + s, 0.f, 1.f, 0.f, string::f("%s: GAIN (adds to VC)", n), " V", 0.f, 5.5f)->randomizeEnabled = false;
 			configInput(IN_A_INPUT + 2 * s, string::f("%s: IN", n));
 			configInput(VC_A_INPUT + 2 * s, string::f("%s: VC (12 dB/V, unity at 5 V)", n));
 			configOutput(OUT_A_OUTPUT + s, string::f("%s: OUT", n));
@@ -215,7 +215,7 @@ struct MIX : Module {
 		for (int s = 0; s < 2; s++) {
 			const char* n = s ? "B" : "A";
 			for (int i = 0; i < 3; i++) {
-				configParam(L1_A_PARAM + 3 * s + i, 0.f, 1.f, 0.f, string::f("%s: IN %d level", n, i + 1), "%", 0.f, 100.f);
+				configParam(L1_A_PARAM + 3 * s + i, 0.f, 1.f, 0.f, string::f("%s: IN %d level", n, i + 1), "%", 0.f, 100.f)->randomizeEnabled = false;
 				configInput(IN1_A_INPUT + 4 * s + i, string::f("%s: IN %d", n, i + 1));
 			}
 			configInput(IN4_A_INPUT + 4 * s, string::f("%s: IN 4 (unity)", n));
@@ -248,7 +248,7 @@ struct DCSM : Module {
 	DCSM() {
 		config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 		for (int s = 0; s < 2; s++) {
-			configParam(GAIN1_PARAM + 2 * s, 0.f, 1.f, 1.f, string::f("%d: GAIN", s + 1), "%", 0.f, 100.f);
+			configParam(GAIN1_PARAM + 2 * s, 0.f, 1.f, 1.f, string::f("%d: GAIN", s + 1), "%", 0.f, 100.f)->randomizeEnabled = false;
 			configParam(PAN1_PARAM + 2 * s, 0.f, 1.f, 0.5f, string::f("%d: PAN (left to right)", s + 1), "%", 0.f, 100.f);
 			configInput(GAINCV1_INPUT + 3 * s, string::f("%d: GAIN CV (0 to 5 V)", s + 1));
 			configInput(IN1_INPUT + 3 * s, string::f("%d: IN", s + 1));
