@@ -14,8 +14,8 @@ struct FRS : Module {
 		config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 		configParam(FREQ_PARAM, 0.f, 1.f, 0.5f, "FREQ (shift)", " Hz", std::exp2(16.61f), 0.05f);
 		configParam(VCFREQ_PARAM, -1.f, 1.f, 0.f, "VC FREQ (FREQ CV amount, oct/V)");
-		configParam(UP_PARAM, 0.f, 1.f, 1.f, "UP level", "%", 0.f, 100.f);
-		configParam(DOWN_PARAM, 0.f, 1.f, 1.f, "DOWN level", "%", 0.f, 100.f);
+		configParam(UP_PARAM, 0.f, 1.f, 1.f, "UP level", "%", 0.f, 100.f)->randomizeEnabled = false;
+		configParam(DOWN_PARAM, 0.f, 1.f, 1.f, "DOWN level", "%", 0.f, 100.f)->randomizeEnabled = false;
 		configInput(IN_INPUT, "IN");
 		configInput(FREQCV_INPUT, "FREQ CV");
 		configInput(VOCT_INPUT, "1V/OCT");
